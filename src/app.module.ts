@@ -1,6 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { TenantsModule } from './modules/tenants/tenants.module';
+import { UsersModule } from './modules/users/users.module';
+import { ProductsModule } from './modules/products/products.module';
+import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
+import { DeliveriesModule } from './modules/deliveries/deliveries.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -21,6 +27,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         synchronize: `${process.env.NODE_ENV === 'development'}` ? true : false,
       }),
     }),
+    TenantsModule,
+    UsersModule,
+    ProductsModule,
+    SubscriptionsModule,
+    DeliveriesModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
