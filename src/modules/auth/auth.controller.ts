@@ -2,12 +2,20 @@ import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+import { SignupDto } from './dto/signup.dto';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 
 @ApiTags('Authentication')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
+  @Post('signup')
+  @ApiOperation({ summary: 'Signup a new business and owner' })
+  async signup(@Body() signupDto: SignupDto) {
+    const result = await this.authService.signup(signupDto);
+    return { message: 'Business and owner account created successfully', data: result };
+  }
 
   @Post('register')
   @ApiOperation({ summary: 'Register a new user' })

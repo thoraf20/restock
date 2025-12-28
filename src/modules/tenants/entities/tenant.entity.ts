@@ -1,10 +1,10 @@
-import { Column, Entity } from 'typeorm';
+import { BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm';
 import { BaseEntity } from '../../../common/database/entities/base.entity';
 import { TenantStatus } from '../../../common/types';
 
 @Entity('tenants')
 export class Tenant extends BaseEntity {
-  @Column()
+  @Column({ unique: true })
   name: string;
 
   @Column({ unique: true })
@@ -15,4 +15,13 @@ export class Tenant extends BaseEntity {
 
   @Column({ default: TenantStatus.ACTIVE })
   status: TenantStatus;
+
+  @Column({ nullable: true, type: 'uuid' })
+  ownerId: string;
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  generateSlug() {
+    this.slug = this.slug || this.name.toLowerCase().replace(/\s+/g, '-');
+  }
 }
